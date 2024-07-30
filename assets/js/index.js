@@ -23,26 +23,48 @@ function debounce(fn, delay) {
 }
 
 /* Email Validator Functions */
-/* https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript */
-/* Credit => Michael Martin-Smucker */
+/* AlphaNumeric Algorithm => https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript */
+/* Credit ^^ Michael Martin-Smucker */
+/* Acceptable Email Formats => https://help.xmatters.com/ondemand/trial/valid_email_format.htm */
+
+/* Check For Allowed Non-Alpha Numeric Characters For Emails */
+/* Email guidelines => https://help.xmatters.com/ondemand/trial/valid_email_format.htm */
+
+function isSpecialChar(code) {
+    /* code 95 (underscore), code 45 (dash), code 46 (period) */
+    return (code === 95 || code === 45 || code === 46);
+}
 
 /* Check For Alpha Numeric Characters */
 function isAlphaNum(inputString) {
     for (let i = 0; i < inputString.length; i++) {
         let code = inputString.charCodeAt(i);
+        let nextCode = inputString.charCodeAt(i + 1);
+        console.log(inputString[i], code)
+        console.log(inputString[i + 1], nextCode)
+
         if (!(code > 47 && code < 58) &&    // numeric (0-9)
             !(code > 64 && code < 91) &&    // UPPER alpha (A-Z)
-            !(code > 96 && code < 123)) {   // LOWER alpha (a-z)
+            !(code > 96 && code < 123) &&   // LOWER alpha (a-z)
+            !(isSpecialChar(code)) &&
+            !(isSpecialChar(nextCode) === isSpecialChar(code))) {       // Allowed Characters (_, -, .)
             return false;
         }
     }
     return true;
 }
 
-function isEmailExtension(element) {
-    let inputString = element.value;
-    const inputChars = inputString.split('@');
-    if (inputChars.length === 2 && isAlphaNum(inputChars[0])) {
+function isEmailExtension(elementVal) {
+    const inputChars = elementVal.split('@');
+    let emailPrefix = inputChars[0];
+    let emailDomain = inputChars[1];
+    let lastCharOfPrefix = emailPrefix.charCodeAt(emailPrefix.length - 1);
+
+    if ((inputChars.length === 2) && 
+        (isAlphaNum(emailPrefix)) &&
+        (isAlphaNum(emailDomain)) &&
+        !(isSpecialChar(lastCharOfPrefix))
+    ) {
         return true;
     }
     return false;
@@ -52,7 +74,7 @@ function isEmailExtension(element) {
 /* Event Handling Functions */
 
 function handleTextRequired(element, errElement) {
-    if (element.value === "") {
+    if (!element.value) {
         errElement.classList.remove('hidden');
     }
     else {
@@ -87,7 +109,7 @@ function handleTermsChecked(element, errElement) {
 }
 
 function handleValidEmail(element, errElement) {
-    if (!isEmailExtension(element)) {
+    if (element.value && !isEmailExtension(element.value)) {
         errElement.classList.remove('hidden');
     }
     else {
