@@ -1,0 +1,231 @@
+@font-face {
+    font-family: Karla, sans-serif;
+    src: url("/assets/fonts/Karla-VariableFont_wght.ttf");
+}
+
+:root {
+
+    /* Colors */
+    --green-200: 148, 38%, 91%;
+    --green-600: 169, 82%, 27%;
+    --red: 0, 66%, 54%;
+    --white: 0, 0%, 100%;
+    --grey-500: 186, 15%, 59%;
+    --grey-900: 187, 24%, 22%;
+
+    /* Font-Size */
+    --label-fs: 16px;
+
+    /* Font Family */
+    --karla-font: 'Karla', sans-serif;
+
+    /* Font Weights */
+    --fw-400: 400;
+    --fw-700: 700;
+
+    /* Misc */
+    --border-rad: 0.5rem;
+    --pad-block: 0.75rem;
+    --form-pad: 3rem;
+
+}
+
+/* Utility Classes */
+
+/* Background Color Classes */
+.bg-green-200 { background-color: hsl(var(--green-200));}
+.bg-green-600 { background-color: hsl(var(--green-600));}
+.bg-red { background-color: hsl(var(--red));}
+.bg-white { background-color: hsl(var(--white));}
+.bg-grey-500 { background-color: hsl(var(--grey-500));}
+.bg-grey-900 { background-color: hsl(var(--grey-900));}
+
+/* Text Color Classes */
+.text-green-200 { color: hsl(var(--green-200));}
+.text-green-600 { color: hsl(var(--green-600));}
+.text-red { color: hsl(var(--red));}
+.text-white { color: hsl(var(--white));}
+.text-grey-500 { color: hsl(var(--grey-500));}
+.text-grey-900 { color: hsl(var(--grey-900));}
+
+/* Font Family Class */
+.karla-font { font-family: var(--karla-font) }
+
+/* Font Size Class */
+.fs-16 { font-size: var(--label-fs);}
+
+/* Font Weight Classes */
+
+.fw-400 { font-weight: var(--fw-400); }
+.fw-700 { font-weight: var(--fw-700); }
+
+.centered {
+    display: grid;
+    text-align: center;
+    place-items: center;
+}
+
+.container {
+    --container-gap: 1rem;
+    display: grid;
+    inline-size: 100%;
+    text-align: left;
+    gap: var(--container-gap);
+}
+
+.rounded {
+    border-radius: var(--border-rad);
+    padding-block: var(--pad-block);
+    border: 1px solid hsla(var(--grey-900));
+}
+
+/* Custom CSS */
+
+input,
+button {
+    cursor: pointer;
+}
+
+button {
+    letter-spacing: 0.1rem;
+    font-weight: var(--fw-700);
+}
+
+.container > label {
+    font-size: var(--label-fs);
+}
+
+.required-field::after {
+    content: '*';
+    color: hsl(var(--green-600));
+    margin-inline-start: 0.5rem;
+}
+
+.form {
+    --column-gap: 1rem;
+    --row-gap: 2rem;
+
+    border: none;
+    width: min(50rem, 90%);
+    row-gap: var(--row-gap);
+    column-gap: var(--column-gap);
+    padding: var(--form-pad);
+    /* margin-block: 2rem; */
+    margin: 10rem;
+    font-weight: var(--fw-400);
+
+    grid-template-areas: 
+    "fh fh"
+    "fn ln"
+    "ea ea"
+    "qt qt"
+    "mg mg"
+    "tm tm"
+    "bt bt";
+}
+
+#form-heading-wrapper { grid-area: fh; }
+#first-name-wrapper { grid-area: fn; }
+#last-name-wrapper { grid-area: ln; }
+#email-wrapper { grid-area: ea; }
+#query-type-wrapper { grid-area: qt; }
+#message-wrapper { grid-area: mg; }
+#terms-wrapper { grid-area: tm; }
+#submit-btn-wrapper { grid-area: bt; }
+
+#query-type-wrapper {
+    display: grid;
+    column-gap: var(--column-gap);
+    grid-template-areas: 
+    "lb lb"
+    "ge sr"
+    "er er";
+}
+.ge-wrapper { grid-area: ge; }
+.sr-wrapper { grid-area: sr; }
+#qt-required { grid-area: er; }
+#terms-wrapper { 
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: auto;
+}
+#terms-required { grid-column: span 2; grid-row: 2;}
+
+input[type="text"],
+textarea,
+button[type="submit"] {
+    inline-size: 100%;
+}
+
+input[type="text"], textarea {
+    text-indent: 1rem;
+}
+
+input[type="radio"] {
+    margin-inline-start: 1.5rem;
+}
+
+input[type="checkbox"] {
+    border: 1px solid hsl(var(--grey-500));
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Input State Styles */
+
+input[type="checkbox"],
+input[type="radio"],
+input:checked {
+    accent-color: hsl(var(--green-600));
+}
+
+textarea {
+    height: 7rem;
+}
+
+/* Element & Error States */
+
+.error {
+    color: hsl(var(--red));
+}
+
+.hidden {
+    display: none;
+}
+
+.active-option {
+    border-color: hsl(var(--green-600));
+    background-color: hsl(var(--green-200));
+}
+
+.active-err {
+    border-color: hsl(var(--red));
+}
+
+
+.show-content {
+    display: block;
+}
+
+button[type="submit"]:hover,
+button[type="submit"]:focus,
+button[type="submit"]:focus-visible {
+    background-color: hsl(var(--grey-900));
+}
+
+input[type="text"]:hover {
+    border: 1px solid hsl(var(--green-600));
+}
+
+input[type="text"]:focus,
+input[type="text"]:focus-visible {
+    background-color: hsl(var(--green-200));
+}
+
+input[type="checkbox"]:focus,
+input[type="checkbox"]:focus-visible {
+    border: 1px solid hsl(var(--green-200));
+}
+
+.attribution { font-size: 11px; text-align: center; }
+.attribution a { color: hsl(228, 45%, 44%); }

@@ -1,0 +1,47 @@
+/* ------------------------------ */
+/* Resetting CSS / Normalizing CSS*/
+/* ------------------------------ */
+
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+/* Great Resource For Resetting CSS */
+
+/* Box-Sizing Adjustment */
+*, 
+::before, 
+*::after {
+    box-sizing: border-box;
+}
+
+/* Reset Margins */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+    margin: 0;
+}
+
+/* Set Up The Body */
+body {
+    line-height: 1.5;   /*Default = 1.4, but too small. Alt: 1.6 */
+    min-height: 100vh; /*Prevent Short Page Issue, No Scrolling */
+}
+
+/* Make Images Easy To Work With */
+img,
+picture {
+    max-width: 100%;
+    display: block;
+}
+
+/* Make Form Elements Easy To Work With */
+input,
+button,
+textarea,
+select {
+    font: inherit; /*Normally, doesn't inherit font, which is a nightmare */
+}
