@@ -26,48 +26,62 @@ function debounce(fn, delay) {
 /* AlphaNumeric Algorithm => https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript */
 /* Credit ^^ Michael Martin-Smucker */
 /* Acceptable Email Formats => https://help.xmatters.com/ondemand/trial/valid_email_format.htm */
-
-/* Check For Allowed Non-Alpha Numeric Characters For Emails */
 /* Email guidelines => https://help.xmatters.com/ondemand/trial/valid_email_format.htm */
 
-function isSpecialChar(code) {
-    /* code 95 (underscore), code 45 (dash), code 46 (period) */
-    return (code === 95 || code === 45 || code === 46);
+/* Check For Alpha Numeric Characters */
+function isAlphaNum(charCode) {
+    if (!(charCode >= 48 && charCode <= 57) &&  // 0-9
+        !(charCode >= 65 && charCode <= 90) &&  // A-Z
+        !(charCode >= 97 && charCode <= 122)) { // a-z
+            return false;
+    }
+    return true;
 }
 
-/* Check For Alpha Numeric Characters */
-function isAlphaNum(inputString) {
-    for (let i = 0; i < inputString.length; i++) {
-        let code = inputString.charCodeAt(i);
-        let nextCode = inputString.charCodeAt(i + 1);
-        console.log(inputString[i], code)
-        console.log(inputString[i + 1], nextCode)
+/* Check For Allowed Non-Alpha Numeric Characters For Emails */
+/* code 95 (underscore), code 45 (dash), code 46 (period) */
+function isExceptionChar(charCode) {
+    return (charCode === 95 || charCode === 45 || charCode === 46);
+}
 
-        if (!(code > 47 && code < 58) &&    // numeric (0-9)
-            !(code > 64 && code < 91) &&    // UPPER alpha (A-Z)
-            !(code > 96 && code < 123) &&   // LOWER alpha (a-z)
-            !(isSpecialChar(code)) &&
-            !(isSpecialChar(nextCode) === isSpecialChar(code))) {       // Allowed Characters (_, -, .)
+function validateCharacters(partition) {
+    for (let i = 0; i < partition.length; i++) {
+        const charCode = partition.charCodeAt(i);
+        /* If Character Is NOT Alpha AND Is Not ('.', '-', OR '_'), Invalidate */
+        if (!isAlphaNum(charCode) && !isExceptionChar(charCode)) {
             return false;
         }
     }
     return true;
 }
 
-function isEmailExtension(elementVal) {
+function isValidEmailConvention(elementVal) {
+    /* Split email input into two parts -- `john-smith@examp.com` ==> john-smith, examp.com */
     const inputChars = elementVal.split('@');
-    let emailPrefix = inputChars[0];
-    let emailDomain = inputChars[1];
-    let lastCharOfPrefix = emailPrefix.charCodeAt(emailPrefix.length - 1);
+    const emailPrefix = inputChars[0];
+    const emailDomain = inputChars[1];
 
-    if ((inputChars.length === 2) && 
-        (isAlphaNum(emailPrefix)) &&
-        (isAlphaNum(emailDomain)) &&
-        !(isSpecialChar(lastCharOfPrefix))
-    ) {
-        return true;
+    /* Grab last character for check (MUST BE ALPHA) */
+    const lastCharOfPrefix = emailPrefix.charCodeAt(emailPrefix.length - 1);
+    
+    /* If Email Is Not Parsed Successfully Into Prefix & Domain, Invalidate */
+    if (inputChars.length !== 2) {
+        return false;
     }
-    return false;
+
+    /* If The Last Character Of Email Prefix Is Not Alpha, Invalidate */
+    if (!isAlphaNum(lastCharOfPrefix)) {
+        return false;
+    }
+
+    /* Iterate Through Partitions For Validating Individual Characters */
+    isValidPrefix = validateCharacters(emailPrefix);
+    if (!isValidPrefix) { return false; }
+    isValidDomain = validateCharacters(emailDomain);
+    if (!isValidDomain) { return false; }
+
+    /* ALL TESTS ARE PASSED, ALLOW VALIDATION */
+    return true;
 }
 
 /* ========================== */
@@ -109,7 +123,7 @@ function handleTermsChecked(element, errElement) {
 }
 
 function handleValidEmail(element, errElement) {
-    if (element.value && !isEmailExtension(element.value)) {
+    if (element.value && !isValidEmailConvention(element.value)) {
         errElement.classList.remove('hidden');
     }
     else {
