@@ -30,50 +30,66 @@ function debounce(fn, delay) {
 
 function handleTextRequired(element, errElement) {
     let isValid;
-    if (!element.value) {
-        errElement.classList.remove('hidden');
+    if (element.value) {
+        errElement.classList.add('hidden');
         isValid = true;
     }
     else {
-        errElement.classList.add('hidden');
+        errElement.classList.remove('hidden');
         isValid = false;
     }
+    // console.log(`${element.id} Valid: ${isValid}`);
     return isValid;
 }
 
 function handleQueryChecked(elements, errElement) {
+    let isValid;
     let checkCount = 0;
     elements.forEach((element) => {
         if (element.checked) {
+            console.log(`${element.id} is checked.`)
             checkCount += 1;
         }
     });
-    console.log(checkCount)
 
     if (checkCount) {
         errElement.classList.add('hidden');
+        isValid = true;
     }
     else {
         errElement.classList.remove('hidden');
+        isValid = false;
     }
+    // console.log(`Query Valid: ${isValid}`);
+    return isValid;
 }
 
 function handleTermsChecked(element, errElement) {
+    let isValid;
     if (!element.checked) {
         errElement.classList.remove('hidden');
+        isValid = false;
     }
     else {
         errElement.classList.add('hidden');
+        isValid = true;
     }
+    // console.log(`${element.id} Valid: ${isValid}`);
+    return isValid;
 }
 
 function handleValidEmail(element, errElement) {
+    let isValid;
     if (element.value && !isValidEmailConvention(element.value)) {
         errElement.classList.remove('hidden');
+        isValid = false;
     }
     else {
         errElement.classList.add('hidden');
+        isValid = true;
     }
+    // console.log(`${element.id} Valid: ${isValid}`);
+    return isValid;
 }
 
 /* ========================== */
@@ -93,7 +109,7 @@ const textInputs = document.querySelectorAll('input[type="text"]');
 const allTextInputs = [...textInputs, messageInput];
 
 /* Selecting Success Message */
-
+const successMessage = document.getElementById('success-message');
 /* Event Handling Functions */
 
 /* Handler Functions For `On Change` */
@@ -138,37 +154,70 @@ function handleOnTermsBlur(event) {
 }
 /* ============================= */
 
+/* Handler Function For Success Message */
+function displaySuccessMessage(element) {
+    element.classList.remove('hidden');
+}
+/* Handler Function For VALID Form Data */
 
 /* Handling Form Validation */
 function handleForm(event) {
     event.preventDefault();
     /* Selecting All Form's Child Elements & Handling Their Error/Required Messages */
+    /* Storing Result Of Validation Of Each Field Within Variables */
+    /*
+    FORMAT
+        1. Error Element(s)
+        2. Validation Boolean
+    */
     
     /* First Name */
     const firstNameRequired = document.getElementById('fn-required');
-    handleTextRequired(firstNameInput, firstNameRequired);
+    const wasFirstNameProvided = handleTextRequired(firstNameInput, firstNameRequired);
 
     /* Last Name */
     const lastNameRequired = document.getElementById('ln-required');
-    handleTextRequired(lastNameInput, lastNameRequired);
+    const wasLastNameProvided = handleTextRequired(lastNameInput, lastNameRequired);
 
     /* Email */
     const emailRequired = document.getElementById('em-required');
     const emailInvalid = document.getElementById('em-invalid');
-    handleTextRequired(emailInput, emailRequired);
-    handleValidEmail(emailInput, emailInvalid);
+    const wasEmailProvided = handleTextRequired(emailInput, emailRequired);
+    const wasEmailValidated = handleValidEmail(emailInput, emailInvalid);
 
     /* Query Type */
     const queryRequired = document.getElementById('qt-required');
-    handleQueryChecked(queryTypeInputs, queryRequired);
+    const wasQueryProvided = handleQueryChecked(queryTypeInputs, queryRequired);
     
     /* Message */
     const messageRequired = document.getElementById('msg-required');
-    handleTextRequired(messageInput, messageRequired);
+    const wasMessageProvided = handleTextRequired(messageInput, messageRequired);
 
     /* Terms */
     const termsRequired = document.getElementById('terms-required');
-    handleTermsChecked(termsInput, termsRequired);
+    const wasTermsAgreed = handleTermsChecked(termsInput, termsRequired);
+
+    /*
+    TESTS:
+        1. First name, last name, message field
+        2. Email provided and email validated
+        3. Query provided and terms agreed
+    */
+
+    const textFieldsValid = wasFirstNameProvided && wasLastNameProvided && wasMessageProvided;
+    const emailValid = wasEmailProvided && wasEmailValidated;
+    const checkboxesValid = wasQueryProvided && wasTermsAgreed;
+
+    console.log(wasEmailProvided);
+    console.log(wasEmailValidated);
+    console.log(`Test results: ${textFieldsValid}, ${emailValid}, ${checkboxesValid}`)
+
+    if (textFieldsValid && emailValid && checkboxesValid) {
+        /* Do something with form data */
+        const formData = new FormData(form)
+        displaySuccessMessage(successMessage);
+        console.log("SUCCESS!")
+    }
 }
 
 /* Attaching `handleOnText` and `handleOnBlur` to all text inputs for `focus`, `hover`, and `blur` events */

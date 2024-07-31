@@ -189,6 +189,8 @@ textarea {
     height: 7rem;
 }
 
+/**/
+
 /* Element & Success/Error States */
 
 .error {
@@ -196,6 +198,10 @@ textarea {
 }
 
 .hidden {
+    display: none;
+}
+
+#success-message.hidden {
     display: none;
 }
 
@@ -208,7 +214,6 @@ textarea {
 .active-err {
     border-color: hsl(var(--red));
 }
-
 
 .show-content {
     display: block;
