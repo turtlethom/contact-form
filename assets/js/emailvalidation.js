@@ -1,8 +1,10 @@
 /* Email Validator Functions */
+
+/* ============== SOURCES ============== */
+/* Inspired Email Guidelines => https://help.xmatters.com/ondemand/trial/valid_email_format.htm */
 /* AlphaNumeric Algorithm => https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript */
 /* Credit ^^ Michael Martin-Smucker */
-/* Acceptable Email Formats => https://help.xmatters.com/ondemand/trial/valid_email_format.htm */
-/* Email guidelines => https://help.xmatters.com/ondemand/trial/valid_email_format.htm */
+/* ============== ======= ============== */
 
 /* Check For Alpha Numeric Characters */
 function isAlphaNum(charCode) {

@@ -25,7 +25,7 @@ function debounce(fn, delay) {
 }
 
 /* ========================== */
-/* Event Handling Functions */
+/* Form Validator Functions */
 
 function handleTextRequired(element, errElement) {
     if (!element.value) {
@@ -83,6 +83,45 @@ const queryTypeInputs = document.querySelectorAll('input[name="query-type"]');
 const messageInput = document.getElementById('message');
 const termsInput = document.getElementById('terms');
 
+/* Selecting All Text Inputs */
+const textInputs = document.querySelectorAll('input[type="text"]');
+const allTextInputs = [...textInputs, messageInput];
+
+/* Event Handling Functions */
+
+/* Handles All Text Inputs Focus & Hover */
+function handleOnText(event) {
+    event.target.classList.add('active');
+}
+
+/* Handling Text Inputs Losing Focus (Blur) */
+
+function handleOnTextBlur(event) {
+    event.target.classList.remove('active');
+}
+
+/* Handling Query Options Focus & Hover */
+function handleOnQuery(event) {
+    event.target.parentElement.classList.add('active');
+    event.target.classList.add('active');
+}
+
+/* Handling Query Options Losing Focus (Blur) */
+function handleOnQueryBlur(event) {
+    event.target.parentElement.classList.remove('active')
+}
+
+/* Handle Checked/Selected Query Events */
+function handleOnChecked(event) {
+    queryTypeInputs.forEach(input => {
+        if (input.checked) {
+            input.parentElement.classList.add('active');
+        }
+        else {
+            input.parentElement.classList.remove('active');
+        }
+    })
+}
 /* Handling Form Validation */
 function handleForm(event) {
     event.preventDefault();
@@ -120,6 +159,20 @@ function handleForm(event) {
     handleTermsChecked(termsInput, termsRequired);
     
 }
+
+/* Attaching `handleOnText` and `handleOnBlur` to all text inputs for `focus`, `hover`, and `blur` events */
+allTextInputs.forEach(textInput => {
+    textInput.addEventListener('focus', handleOnText);
+    textInput.addEventListener('blur', handleOnTextBlur);
+})
+
+/* Attaching `handleCurrentQuery` to query type options - linked together */
+queryTypeInputs.forEach(queryOption => {
+    queryOption.addEventListener('change', handleOnChecked);
+    queryOption.addEventListener('focus', handleOnQuery);
+    queryOption.addEventListener('hover', handleOnQuery);
+    queryOption.addEventListener('blur', handleOnQueryBlur);
+});
 
 /* Attaching `handleForm` itself to the form upon hitting the `submit` button */
 form.addEventListener("submit", handleForm);

@@ -183,7 +183,7 @@ textarea {
     height: 7rem;
 }
 
-/* Element & Error States */
+/* Element & Success/Error States */
 
 .error {
     color: hsl(var(--red));
@@ -193,9 +193,10 @@ textarea {
     display: none;
 }
 
-.active-option {
+.active {
     border-color: hsl(var(--green-600));
     background-color: hsl(var(--green-200));
+    outline: hsl(var(--green-200));
 }
 
 .active-err {
