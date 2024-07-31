@@ -87,6 +87,8 @@ const termsInput = document.getElementById('terms');
 const textInputs = document.querySelectorAll('input[type="text"]');
 const allTextInputs = [...textInputs, messageInput];
 
+/* Selecting Success Message */
+
 /* Event Handling Functions */
 
 /* Handles All Text Inputs Focus & Hover */
@@ -111,8 +113,18 @@ function handleOnQueryBlur(event) {
     event.target.parentElement.classList.remove('active')
 }
 
+/* Handling On Terms Focus */
+function handleOnTerms(event) {
+    event.target.classList.add('active')
+}
+
+/* Handling On Terms Losing Focus (Blur) */
+function handleOnTermsBlur(event) {
+    event.target.classList.remove('active');
+}
+
 /* Handle Checked/Selected Query Events */
-function handleOnChecked(event) {
+function handleOnQueryChecked(event) {
     queryTypeInputs.forEach(input => {
         if (input.checked) {
             input.parentElement.classList.add('active');
@@ -126,12 +138,7 @@ function handleOnChecked(event) {
 function handleForm(event) {
     event.preventDefault();
     /* Selecting All Form's Child Elements & Handling Their Error/Required Messages */
-    /*
-        Checklist:
-        1. Handle Focus State
-        2. Handle Query Active State
-        3. Handle Error State
-    */
+    
     /* First Name */
     const firstNameRequired = document.getElementById('fn-required');
     handleTextRequired(firstNameInput, firstNameRequired);
@@ -157,7 +164,6 @@ function handleForm(event) {
     /* Terms */
     const termsRequired = document.getElementById('terms-required');
     handleTermsChecked(termsInput, termsRequired);
-    
 }
 
 /* Attaching `handleOnText` and `handleOnBlur` to all text inputs for `focus`, `hover`, and `blur` events */
@@ -166,13 +172,16 @@ allTextInputs.forEach(textInput => {
     textInput.addEventListener('blur', handleOnTextBlur);
 })
 
-/* Attaching `handleCurrentQuery` to query type options - linked together */
+/* Attaching handler functions to query type options - linked together */
 queryTypeInputs.forEach(queryOption => {
-    queryOption.addEventListener('change', handleOnChecked);
+    queryOption.addEventListener('change', handleOnQueryChecked);
     queryOption.addEventListener('focus', handleOnQuery);
-    queryOption.addEventListener('hover', handleOnQuery);
     queryOption.addEventListener('blur', handleOnQueryBlur);
 });
+
+/* Attaching handler functions to terms checkbox */
+termsInput.addEventListener('focus', handleOnTerms)
+termsInput.addEventListener('blur', handleOnTermsBlur)
 
 /* Attaching `handleForm` itself to the form upon hitting the `submit` button */
 form.addEventListener("submit", handleForm);

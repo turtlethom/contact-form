@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: Karla, sans-serif;
     src: url("/assets/fonts/Karla-VariableFont_wght.ttf");
@@ -111,7 +112,7 @@ button {
     column-gap: var(--column-gap);
     padding: var(--form-pad);
     /* margin-block: 2rem; */
-    margin: 10rem;
+    margin: 5rem;
     font-weight: var(--fw-400);
 
     grid-template-areas: 
@@ -144,12 +145,16 @@ button {
 .ge-wrapper { grid-area: ge; }
 .sr-wrapper { grid-area: sr; }
 #qt-required { grid-area: er; }
+
+.ge-wrapper, .sr-wrapper { display: flex; }
 #terms-wrapper { 
     display: grid;
     grid-template-columns: min-content auto;
     grid-template-rows: auto;
 }
 #terms-required { grid-column: span 2; grid-row: 2;}
+
+/* Input Base Styles */
 
 input[type="text"],
 textarea,
@@ -162,21 +167,22 @@ input[type="text"], textarea {
 }
 
 input[type="radio"] {
+    appearance: none;
+    margin: 0;
+    
+    margin-inline-end: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 1em;
+    border: 1px solid hsl(var(--grey-900));
     margin-inline-start: 1.5rem;
 }
 
 input[type="checkbox"] {
-    border: 1px solid hsl(var(--grey-500));
+    appearance: none;
     width: 1.25rem;
     height: 1.25rem;
-}
-
-/* Input State Styles */
-
-input[type="checkbox"],
-input[type="radio"],
-input:checked {
-    accent-color: hsl(var(--green-600));
+    border: 1px solid hsl(var(--grey-900));
 }
 
 textarea {
@@ -208,6 +214,33 @@ textarea {
     display: block;
 }
 
+#success-message {
+    position: sticky;
+    width: max(30rem, 20%);
+    margin-inline: auto;
+    top: 5rem;
+    display: flex;
+    gap: 0.5rem;
+    text-align: left;
+    padding: 2rem;
+    margin-block-start: var(--pad-block);
+    border-radius: var(--border-rad);
+    flex-direction: column;
+    justify-content: flex-start;
+    color: hsl(var(--white));
+    background-color: hsl(var(--grey-900));
+}
+
+#success-message img {
+    display: inline-block;
+    margin-inline-end: 1rem;
+}
+
+/* Pseudo Class Selectors */
+.ge-wrapper:hover, .sr-wrapper:hover {
+    accent-color: hsl(var(--green-200));
+}
+
 button[type="submit"]:hover,
 button[type="submit"]:focus,
 button[type="submit"]:focus-visible {
@@ -223,8 +256,30 @@ input[type="text"]:focus-visible {
     background-color: hsl(var(--green-200));
 }
 
+input[type="radio"]:checked {
+    border: none;
+    background-image: url('/assets/images/icon-radio-selected.svg');
+    background-position: center;
+    background-size: 100%;
+    
+}
+
+input[type="checkbox"]:checked {
+    background-image: url('/assets/images/icon-checkbox-check.svg');
+    background-size: 100%;
+}
+
+input[type="checkbox"]:focus {
+    outline: hsl(var(--grey-900));
+}
+
+input[type="checkbox"]:hover {
+    border: 1px solid hsl(var(--grey-900));
+}
+
 input[type="checkbox"]:focus,
 input[type="checkbox"]:focus-visible {
+    outline: hsl(var(--grey-900));
     border: 1px solid hsl(var(--green-200));
 }
 
