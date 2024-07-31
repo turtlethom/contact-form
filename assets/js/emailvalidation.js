@@ -33,10 +33,6 @@ function validateCharacters(partition) {
     return true;
 }
 
-function handleSuccessMessage() {
-    
-}
-
 function isValidEmailConvention(elementVal) {
     /* Split email input into two parts -- `john-smith@examp.com` ==> john-smith, examp.com */
     const inputChars = elementVal.split('@');
