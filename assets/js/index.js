@@ -1,6 +1,6 @@
 import isValidEmailConvention from './emailvalidation.js';
 
-/* DEBUG: FNS FOR LOGGING */
+/* DEBUG: FUNCTIONS FOR LOGGING */
 function logTargetValue(e) {
     console.log(e.target.value)
 }
@@ -16,6 +16,7 @@ function logSubmission(e) {
 /* Helper Functions */
 
 /* Debouncing Function To Prevent Excessive Calls To Event Listeners */
+/* Unused at the moment... */
 function debounce(fn, delay) {
     let debounceTimer;
     return function(...args) {
@@ -28,12 +29,16 @@ function debounce(fn, delay) {
 /* Form Validator Functions */
 
 function handleTextRequired(element, errElement) {
+    let isValid;
     if (!element.value) {
         errElement.classList.remove('hidden');
+        isValid = true;
     }
     else {
         errElement.classList.add('hidden');
+        isValid = false;
     }
+    return isValid;
 }
 
 function handleQueryChecked(elements, errElement) {
@@ -91,40 +96,8 @@ const allTextInputs = [...textInputs, messageInput];
 
 /* Event Handling Functions */
 
-/* Handles All Text Inputs Focus & Hover */
-function handleOnText(event) {
-    event.target.classList.add('active');
-}
-
-/* Handling Text Inputs Losing Focus (Blur) */
-
-function handleOnTextBlur(event) {
-    event.target.classList.remove('active');
-}
-
-/* Handling Query Options Focus & Hover */
-function handleOnQuery(event) {
-    event.target.parentElement.classList.add('active');
-    event.target.classList.add('active');
-}
-
-/* Handling Query Options Losing Focus (Blur) */
-function handleOnQueryBlur(event) {
-    event.target.parentElement.classList.remove('active')
-}
-
-/* Handling On Terms Focus */
-function handleOnTerms(event) {
-    event.target.classList.add('active')
-}
-
-/* Handling On Terms Losing Focus (Blur) */
-function handleOnTermsBlur(event) {
-    event.target.classList.remove('active');
-}
-
-/* Handle Checked/Selected Query Events */
-function handleOnQueryChecked(event) {
+/* Handler Functions For `On Change` */
+function handleOnQueryChange(event) {
     queryTypeInputs.forEach(input => {
         if (input.checked) {
             input.parentElement.classList.add('active');
@@ -134,6 +107,38 @@ function handleOnQueryChecked(event) {
         }
     })
 }
+/* ============================= */
+
+/* Handler Functions For `Focus` */
+function handleOnTextFocus(event) {
+    event.target.classList.add('active');
+}
+
+function handleOnQueryFocus(event) {
+    event.target.parentElement.classList.add('active');
+    event.target.classList.add('active');
+}
+
+function handleOnTermsFocus(event) {
+    event.target.classList.add('active')
+}
+/* ============================= */
+
+/* Handler Functions For `Blur` (Losing Focus) */
+function handleOnTextBlur(event) {
+    event.target.classList.remove('active');
+}
+
+function handleOnQueryBlur(event) {
+    event.target.parentElement.classList.remove('active')
+}
+
+function handleOnTermsBlur(event) {
+    event.target.classList.remove('active');
+}
+/* ============================= */
+
+
 /* Handling Form Validation */
 function handleForm(event) {
     event.preventDefault();
@@ -168,19 +173,19 @@ function handleForm(event) {
 
 /* Attaching `handleOnText` and `handleOnBlur` to all text inputs for `focus`, `hover`, and `blur` events */
 allTextInputs.forEach(textInput => {
-    textInput.addEventListener('focus', handleOnText);
+    textInput.addEventListener('focus', handleOnTextFocus);
     textInput.addEventListener('blur', handleOnTextBlur);
 })
 
 /* Attaching handler functions to query type options - linked together */
 queryTypeInputs.forEach(queryOption => {
-    queryOption.addEventListener('change', handleOnQueryChecked);
-    queryOption.addEventListener('focus', handleOnQuery);
+    queryOption.addEventListener('change', handleOnQueryChange);
+    queryOption.addEventListener('focus', handleOnQueryFocus);
     queryOption.addEventListener('blur', handleOnQueryBlur);
 });
 
 /* Attaching handler functions to terms checkbox */
-termsInput.addEventListener('focus', handleOnTerms)
+termsInput.addEventListener('focus', handleOnTermsFocus)
 termsInput.addEventListener('blur', handleOnTermsBlur)
 
 /* Attaching `handleForm` itself to the form upon hitting the `submit` button */
