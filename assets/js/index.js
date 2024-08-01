@@ -149,7 +149,8 @@ function handleOnTextBlur(event) {
 }
 
 function handleOnQueryBlur(event) {
-    event.target.parentElement.classList.remove('active')
+    event.target.parentElement.classList.remove('active');
+    event.target.classList.remove('active');
 }
 
 function handleOnTermsBlur(event) {
