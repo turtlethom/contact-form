@@ -112,7 +112,7 @@ button {
     column-gap: var(--column-gap);
     padding: var(--form-pad);
     /* margin-block: 2rem; */
-    margin: 5rem;
+    margin: 10rem;
     font-weight: var(--fw-400);
 
     grid-template-areas: 
@@ -201,9 +201,6 @@ textarea {
     display: none;
 }
 
-#success-message.hidden {
-    display: none;
-}
 
 .active {
     border-color: hsl(var(--green-600));
@@ -215,15 +212,34 @@ textarea {
     border-color: hsl(var(--red));
 }
 
-.show-content {
-    display: block;
+/* Success Message Styling */
+/* https://stackoverflow.com/questions/48174797/use-css-to-make-object-appear-then-after-delay-make-it-disappear */
+@keyframes opacityOnAndOff {
+    0% {
+        top: -15%;
+        opacity: 0;
+    }
+    30%{
+        top: 0;
+      opacity: 1;
+    }
+    100% {
+        top: -15%;
+        opacity: 0;
+    }
+}
+
+#success-message.hidden {
+    display: none;
+    opacity: 0;
 }
 
 #success-message {
-    position: sticky;
+    position: fixed;
     width: max(30rem, 20%);
     margin-inline: auto;
-    top: 5rem;
+    top: -15%;
+    opacity: 1;
     display: flex;
     gap: 0.5rem;
     text-align: left;
@@ -234,12 +250,15 @@ textarea {
     justify-content: flex-start;
     color: hsl(var(--white));
     background-color: hsl(var(--grey-900));
+    animation: opacityOnAndOff 8s normal forwards;
 }
 
 #success-message img {
     display: inline-block;
     margin-inline-end: 1rem;
 }
+
+/* ====================== */
 
 /* Pseudo Class Selectors */
 .ge-wrapper:hover, .sr-wrapper:hover {

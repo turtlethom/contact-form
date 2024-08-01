@@ -157,8 +157,30 @@ function handleOnTermsBlur(event) {
 /* Handler Function For Success Message */
 function displaySuccessMessage(element) {
     element.classList.remove('hidden');
+    setTimeout(() => element.classList.add('hidden'), 5000)
 }
-/* Handler Function For VALID Form Data */
+/* CLEAR ALL PREVIOUS FORM INPUT AFTER SUCCESS */
+function clearTextInput() {
+    const textInputs = document.querySelectorAll('input[type="text"]');
+    textInputs.forEach((input) => input.value = "");
+
+    document.getElementById('message').value = "";
+}
+
+function clearCheckedFields(allQueryInputs, termsInput) {
+    // Get the checked radio input for query-type and uncheck it
+    const checkedQuery = document.querySelector('input[name="query-type"]:checked');
+    if (checkedQuery) {
+        checkedQuery.checked = false;
+        checkedQuery.classList.remove('active');
+    }
+    
+    // Get the checked input for terms and uncheck it
+    const checkedTerms = document.querySelector('input[name="terms"]:checked');
+    if (checkedTerms) {
+        checkedTerms.checked = false;
+    }
+}
 
 /* Handling Form Validation */
 function handleForm(event) {
@@ -216,6 +238,10 @@ function handleForm(event) {
         /* Do something with form data */
         const formData = new FormData(form)
         displaySuccessMessage(successMessage);
+
+        /* Resetting All Inputs To Default State */
+        clearTextInput();
+        clearCheckedFields();
         console.log("SUCCESS!")
     }
 }
