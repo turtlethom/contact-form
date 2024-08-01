@@ -16,7 +16,7 @@ function logSubmission(e) {
 /* Helper Functions */
 
 /* Debouncing Function To Prevent Excessive Calls To Event Listeners */
-/* Unused at the moment... */
+/* Unused... */
 function debounce(fn, delay) {
     let debounceTimer;
     return function(...args) {
@@ -66,6 +66,7 @@ function handleQueryChecked(elements, errElement) {
 
 function handleTermsChecked(element, errElement) {
     let isValid;
+    // If input is not checked, invalidate
     if (!element.checked) {
         errElement.classList.remove('hidden');
         isValid = false;
@@ -80,6 +81,7 @@ function handleTermsChecked(element, errElement) {
 
 function handleValidEmail(element, errElement) {
     let isValid;
+    // If input entered, but is not a valid email convention, invalidate
     if (element.value && !isValidEmailConvention(element.value)) {
         errElement.classList.remove('hidden');
         isValid = false;
@@ -114,6 +116,7 @@ const successMessage = document.getElementById('success-message');
 
 /* Handler Functions For `On Change` */
 function handleOnQueryChange(event) {
+    // Iterate over each query type input
     queryTypeInputs.forEach(input => {
         if (input.checked) {
             input.parentElement.classList.add('active');
@@ -182,6 +185,25 @@ function clearCheckedFields(allQueryInputs, termsInput) {
     }
 }
 
+/* Handle Input Border Colors In Case Of Visible Error Messages */
+function handleErrorBorder(errElements, element) {
+    let hasError = false;
+    
+    // Check each error element to see if any are not hidden
+    errElements.forEach(errElement => {
+        if (!errElement.classList.contains('hidden')) {
+            hasError = true;
+        }
+    });
+    
+    // Add or remove error border based on presence of errors
+    if (hasError) {
+        element.classList.add('error-border');
+    } else {
+        element.classList.remove('error-border');
+    }
+}
+
 /* Handling Form Validation */
 function handleForm(event) {
     event.preventDefault();
@@ -244,6 +266,15 @@ function handleForm(event) {
         clearCheckedFields();
         console.log("SUCCESS!")
     }
+
+    /* If Tests Failed, Color Input Borders As Red */
+    /* Provide Array as 1st argument to handle MULTIPLE Errors on  */
+    handleErrorBorder([firstNameRequired], firstNameInput);
+    handleErrorBorder([lastNameRequired], lastNameInput);
+
+    handleErrorBorder([emailRequired, emailInvalid], emailInput);
+
+    handleErrorBorder([messageRequired], messageInput);
 }
 
 /* Attaching `handleOnText` and `handleOnBlur` to all text inputs for `focus`, `hover`, and `blur` events */
