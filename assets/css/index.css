@@ -163,7 +163,7 @@ button[type="submit"] {
 }
 
 input[type="text"], textarea {
-    text-indent: 1rem;
+    padding-inline-start: 1rem;
 }
 
 input[type="radio"] {
@@ -193,8 +193,12 @@ textarea {
 
 /* Element & Success/Error States */
 
-.error {
+.error-text {
     color: hsl(var(--red));
+}
+
+.error-border {
+    border-color: hsl(var(--red));
 }
 
 .hidden {
@@ -307,5 +311,55 @@ input[type="checkbox"]:focus-visible {
     border: 1px solid hsl(var(--green-200));
 }
 
-.attribution { font-size: 11px; text-align: center; }
-.attribution a { color: hsl(228, 45%, 44%); }
+.attribution {
+    position: relative;
+    bottom: 0;
+    margin-block: 1rem;
+    font-size: 11px; text-align: center;
+}
+
+.attribution a {
+    color: hsl(228, 45%, 44%);
+}
+
+/* Mobile Styling */
+
+@media (max-width: 710px) {
+    .form {
+        display: grid;
+        padding: 1rem;
+        grid-template-areas: 
+        "fh"
+        "fn"
+        "ln"
+        "ea"
+        "qt"
+        "mg"
+        "tm"
+        "bt";
+        margin: 0;
+    }
+
+    #query-type-wrapper {
+        display: grid;
+        grid-template-areas: 
+        "lb"
+        "ge"
+        "sr"
+        "er"
+        ;
+    }
+
+    input[type="radio"] {
+        margin-inline-end: 0.5rem;
+    }
+
+    #message {
+        block-size: 30dvh;
+    }
+
+    #success-message {
+        width: 100dvw;
+    }
+
+}
