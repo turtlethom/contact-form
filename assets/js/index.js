@@ -149,8 +149,14 @@ function handleOnTextBlur(event) {
 }
 
 function handleOnQueryBlur(event) {
-    event.target.parentElement.classList.remove('active');
-    event.target.classList.remove('active');
+    if (event.target.checked) {
+        event.target.classList.remove('active');
+    }
+    else {
+        event.target.classList.remove('active');
+        event.target.parentElement.classList.remove('active');
+
+    }
 }
 
 function handleOnTermsBlur(event) {
