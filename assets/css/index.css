@@ -147,6 +147,10 @@ button {
 #qt-required { grid-area: er; }
 
 .ge-wrapper, .sr-wrapper { display: flex; }
+.ge-wrapper > label,
+.sr-wrapper > label {
+    inline-size: 75%;
+}
 #terms-wrapper { 
     display: grid;
     grid-template-columns: min-content auto;
@@ -228,7 +232,7 @@ textarea {
       opacity: 1;
     }
     100% {
-        top: -15%;
+        top: -20%;
         opacity: 0;
     }
 }
@@ -267,6 +271,8 @@ textarea {
 /* Pseudo Class Selectors */
 .ge-wrapper:hover, .sr-wrapper:hover {
     accent-color: hsl(var(--green-200));
+    border-color: hsl(var(--green-600));
+    background-color: hsl(var(--green-200));
 }
 
 button[type="submit"]:hover,
@@ -275,7 +281,7 @@ button[type="submit"]:focus-visible {
     background-color: hsl(var(--grey-900));
 }
 
-input[type="text"]:hover {
+input[type="text"]:hover, textarea:hover {
     border: 1px solid hsl(var(--green-600));
 }
 
@@ -337,7 +343,8 @@ input[type="checkbox"]:focus-visible {
         "mg"
         "tm"
         "bt";
-        margin: 0;
+        margin-inline: 0;
+        margin-block: 2rem;
     }
 
     #query-type-wrapper {
