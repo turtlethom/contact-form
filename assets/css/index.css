@@ -222,6 +222,7 @@ textarea {
 
 /* Success Message Styling */
 /* https://stackoverflow.com/questions/48174797/use-css-to-make-object-appear-then-after-delay-make-it-disappear */
+/* ^^^ Credit: Jack Moody */
 @keyframes opacityOnAndOff {
     0% {
         top: -15%;
