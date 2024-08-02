@@ -167,7 +167,11 @@ function handleOnTermsBlur(event) {
 /* Handler Function For Success Message */
 function displaySuccessMessage(element) {
     element.classList.remove('hidden');
-    setTimeout(() => element.classList.add('hidden'), 5000)
+    element.setAttribute('aria-hidden', false);
+    setTimeout(() => {
+        element.classList.add('hidden');
+        element.setAttribute('aria-hidden', true);
+    }, 5000)
 }
 /* CLEAR ALL PREVIOUS FORM INPUT AFTER SUCCESS */
 function clearTextInput() {
