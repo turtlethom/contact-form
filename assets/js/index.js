@@ -173,28 +173,6 @@ function displaySuccessMessage(element) {
         element.setAttribute('aria-hidden', true);
     }, 5000)
 }
-/* CLEAR ALL PREVIOUS FORM INPUT AFTER SUCCESS */
-function clearTextInput() {
-    const textInputs = document.querySelectorAll('input[type="text"]');
-    textInputs.forEach((input) => input.value = "");
-
-    document.getElementById('message').value = "";
-}
-
-function clearCheckedFields(allQueryInputs, termsInput) {
-    // Get the checked radio input for query-type and uncheck it
-    const checkedQuery = document.querySelector('input[name="query-type"]:checked');
-    if (checkedQuery) {
-        checkedQuery.checked = false;
-        checkedQuery.classList.remove('active');
-    }
-    
-    // Get the checked input for terms and uncheck it
-    const checkedTerms = document.querySelector('input[name="terms"]:checked');
-    if (checkedTerms) {
-        checkedTerms.checked = false;
-    }
-}
 
 /* Handle Input Border Colors In Case Of Visible Error Messages */
 function handleErrorBorder(errElements, element) {
@@ -273,8 +251,7 @@ function handleForm(event) {
         displaySuccessMessage(successMessage);
 
         /* Resetting All Inputs To Default State */
-        clearTextInput();
-        clearCheckedFields();
+        form.reset();
         console.log("SUCCESS!")
     }
 
