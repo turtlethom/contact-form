@@ -293,14 +293,14 @@ input[type="text"]:focus-visible {
 
 input[type="radio"]:checked {
     border: none;
-    background-image: url('/assets/images/icon-radio-selected.svg');
+    background-image: url('../images/icon-radio-selected.svg');
     background-position: center;
     background-size: 100%;
     
 }
 
 input[type="checkbox"]:checked {
-    background-image: url('/assets/images/icon-checkbox-check.svg');
+    background-image: url('../images/icon-checkbox-check.svg');
     background-size: 100%;
 }
 
